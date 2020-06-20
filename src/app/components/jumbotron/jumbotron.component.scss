@@ -1,0 +1,11 @@
+.jumbotron {
+  height: 600px;
+  background-image: url("../../../assets/images/jumbotron-bg.png");
+}
+
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 960px;
+    margin-left: 10rem;
+  }
+}
