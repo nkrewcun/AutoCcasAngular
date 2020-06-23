@@ -1,11 +1,11 @@
 nav {
-  height: 5rem;
+  padding: 1rem;
 }
 
 h1 {
   display: none;
 }
 
-li {
-  margin-right: 2rem;
+li:not(:last-of-type) {
+  margin-right: 1rem;
 }

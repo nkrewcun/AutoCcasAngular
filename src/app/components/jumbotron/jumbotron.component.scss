@@ -1,11 +1,26 @@
 .jumbotron {
-  height: 600px;
   background-image: url("../../../assets/images/jumbotron-bg.png");
-}
+  background-size: cover;
 
-@media screen and (min-width: 1200px) {
   .container {
     max-width: 960px;
-    margin-left: 10rem;
+  }
+
+  .lead {
+    margin-bottom: 3rem;
+  }
+}
+
+@media screen and (min-width: 1281px) {
+  .jumbotron {
+    .container {
+      margin-left: 10rem;
+    }
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .jumbotron {
+    padding: 6rem 2rem;
   }
 }
