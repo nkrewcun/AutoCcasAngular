@@ -11,6 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { JumbotronComponent } from './components/jumbotron/jumbotron.component';
 import { MainComponent } from './components/main/main.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { AnnoncesComponent } from './components/annonces/annonces.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     HeaderComponent,
     JumbotronComponent,
     MainComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    AnnoncesComponent
   ],
   imports: [
     BrowserModule,
