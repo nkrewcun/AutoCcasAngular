@@ -7,16 +7,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  isShown = false;
+  isCollapsed = true;
 
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  toggleCollapsedNavbar($event) {
-    this.isShown = !this.isShown;
-    $event.currentTarget.setAttribute('aria-expanded', this.isShown ? 'true' : 'false');
   }
 }

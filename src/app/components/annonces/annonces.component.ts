@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Annonce} from '../../models/annonce';
+import {SearchBarService} from '../../services/search-bar.service';
 import {AnnonceService} from '../../services/annonce.service';
 
 @Component({
@@ -10,12 +11,25 @@ import {AnnonceService} from '../../services/annonce.service';
 export class AnnoncesComponent implements OnInit {
 
   annonces: Annonce[];
+  filteredAnnonces: Annonce[];
 
-  constructor(private annonceService: AnnonceService) {
+  constructor(private annonceService: AnnonceService, private searchBarService: SearchBarService) {
   }
 
   ngOnInit(): void {
-    this.annonces = this.annonceService.getAll();
+    this.annonceService.getAll().subscribe((data: Annonce[]) => {
+      this.annonces = data;
+      this.filteredAnnonces = this.annonces;
+    });
+    this.searchBarService.getAll().subscribe(data => {
+      let filters;
+      if (data) {
+        this.filteredAnnonces = this.annonces;
+        filters = data;
+        filters.forEach(filter => {
+          this.filteredAnnonces = this.annonceService.filter(this.filteredAnnonces, filter);
+        });
+      }
+    });
   }
-
 }

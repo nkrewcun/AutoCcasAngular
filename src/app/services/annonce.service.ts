@@ -1,35 +1,107 @@
 import {Injectable} from '@angular/core';
 import {Annonce} from '../models/annonce';
-import {ModeleService} from './modele.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, retry} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnnonceService {
 
-  annonces: Annonce[] = [];
+  annonces: Observable<Annonce[]>;
 
-  constructor(private modeleService: ModeleService) {
-    const max = Math.floor(200 + Math.random() * 100);
-    for (let i = 1; i < max; i++) {
-      let annonce = new Annonce();
-      annonce.id = i;
-      annonce.modele = this.modeleService.getModeleById(Math.floor(1 + Math.random() * this.modeleService.getAll().length));
-      annonce.reference = Math.random().toString(36).toUpperCase();
-      annonce.titre = Math.random().toString(36).toUpperCase();
-      annonce.description = Math.random().toString(36).repeat(10);
-      annonce.descriptionCourte = Math.random().toString(36).repeat(2);
-      annonce.kilometrage = Math.floor(1000 + Math.random() * 199000);
-      annonce.prix = Math.floor(500 + Math.random() * 19500);
-      this.annonces.push(annonce);
-    }
+  apiUrl = 'http://localhost:3000/annonces';
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  constructor(private http: HttpClient) {
   }
 
-  getAll(): Annonce[] {
+  getAll(): Observable<Annonce[]> {
+    this.annonces = this.http.get<Annonce[]>(this.apiUrl, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
     return this.annonces;
   }
 
-  getAnnonceById(id) {
-    return this.annonces.find(annonce => annonce.id === id);
+  getAnnonceById(id: number): Observable<Annonce> {
+    return this.http.get<Annonce>(this.apiUrl + '/' + id, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
+  filter(annoncesToFilter, filter: Node): Annonce[] {
+    const select = filter as HTMLSelectElement;
+    if (select.value) {
+      switch (select.id) {
+        case 'marque':
+          return annoncesToFilter.filter(annonce => annonce.modele.marque.id === +select.value);
+          break;
+        case 'modele':
+          return annoncesToFilter.filter(annonce => annonce.modele.id === +select.value);
+          break;
+        case 'prix':
+          return annoncesToFilter.filter(annonce => {
+            const priceRange = select.value.split('-');
+            return annonce.prix >= +priceRange[0] && annonce.prix <= +priceRange[1];
+          });
+          break;
+        case 'kilometrage':
+          return annoncesToFilter.filter(annonce => {
+            const kmRange = select.value.split('-');
+            return annonce.kilometrage >= +kmRange[0] && annonce.kilometrage <= +kmRange[1];
+          });
+          break;
+      }
+    } else if (select.id === 'marque') {
+      const modele = document.getElementById('modele') as HTMLSelectElement;
+      modele.value = '';
+    }
+    return annoncesToFilter;
+  }
+
+  getMinimumPrice(annonces: Annonce[]): number {
+    return Math.min.apply(Math, annonces.map(annonce => {
+        return annonce.prix;
+      }));
+  }
+
+  getMaximumPrice(annonces: Annonce[]): number {
+    return Math.max.apply(Math, annonces.map(annonce => {
+      return annonce.prix;
+    }));
+  }
+
+  getMinimumKilometrage(annonces: Annonce[]): number {
+    return Math.min.apply(Math, annonces.map(annonce => {
+      return annonce.kilometrage;
+    }));
+  }
+
+  getMaximumKilometrage(annonces: Annonce[]): number {
+    return Math.max.apply(Math, annonces.map(annonce => {
+      return annonce.kilometrage;
+    }));
+  }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+// Get client-side error
+      errorMessage = error.error.message;
+    } else {
+// Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    window.alert(errorMessage);
+    return throwError(errorMessage);
   }
 }

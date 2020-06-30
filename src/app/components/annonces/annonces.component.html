@@ -6,15 +6,17 @@
   <th>Titre</th>
   <th>Kilometrage</th>
   <th>Prix</th>
+  <th>Année de mise en circulation</th>
   </thead>
   <tbody>
-  <tr *ngFor="let annonce of annonces">
+  <tr *ngFor="let annonce of filteredAnnonces">
     <td>{{annonce.modele.marque.nom}}</td>
     <td>{{annonce.modele.nom}}</td>
     <td>{{annonce.reference}}</td>
     <td>{{annonce.titre}}</td>
-    <td>{{annonce.kilometrage}} km</td>
-    <td>{{annonce.prix}} €</td>
+    <td>{{annonce.kilometrage | withSpaces}} km</td>
+    <td>{{annonce.prix | withSpaces}} €</td>
+    <td>{{annonce.anneeMiseCirculation}}</td>
   </tr>
   </tbody>
 </table>

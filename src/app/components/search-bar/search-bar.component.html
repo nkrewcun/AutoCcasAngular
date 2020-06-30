@@ -1,44 +1,46 @@
 <div class="container-lg">
   <div class="row">
     <div class="col-lg-4 col-md-6">
-      <select id="marque" class="custom-select" (change)="filterModele($event)">
+      <select id="marque" class="custom-select" (change)="setFilter($event)">
         <option value="" selected>Marque</option>
         <option *ngFor="let marque of marques" [value]="marque.id">{{ marque.nom }}</option>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
-      <select id="modele" class="custom-select" [disabled]="isModeleDisabled">
+      <select id="modele" class="custom-select" [disabled]="isModeleDisabled" (change)="setFilter($event)">
         <option value="" selected>Modèle</option>
-        <option *ngFor="let modele of modeles" [value]="modele.id">{{ modele.nom }}</option>
+        <option *ngFor="let modele of filteredModeles" [value]="modele.id">{{ modele.nom }}</option>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
-      <select id="prix" class="custom-select">
-        <option selected>Prix</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select id="prix" class="custom-select" (change)="setFilter($event)">
+        <option value="" selected>Prix</option>
+        <ng-container *ngFor="let price of prices; index as i">
+          <option *ngIf="prices[i-1] == null" [value]="price+'-'+prices[i+1]">de {{ price | withSpaces }} à {{prices[i+1] | withSpaces}} €</option>
+          <option *ngIf="prices[i+1] && prices[i-1] != null" [value]="price+1+'-'+prices[i+1]">de {{ price+1 | withSpaces }} à {{prices[i+1] | withSpaces }} €</option>
+        </ng-container>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
       <select id="carburant" class="custom-select">
-        <option selected>Carburant</option>
+        <option value="" selected>Carburant</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
-      <select id="kilometrage" class="custom-select">
-        <option selected>Kilométrage</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select id="kilometrage" class="custom-select" (change)="setFilter($event)">
+        <option  value="" selected>Kilométrage</option>
+        <ng-container *ngFor="let kilometrage of kilometrages; index as i">
+          <option *ngIf="kilometrages[i-1] == null" [value]="kilometrage+'-'+kilometrages[i+1]">de {{ kilometrage | withSpaces }} à {{kilometrages[i+1] | withSpaces }} km</option>
+          <option *ngIf="kilometrages[i+1] && kilometrages[i-1] != null" [value]="kilometrage+1+'-'+kilometrages[i+1]">de {{ kilometrage+1 | withSpaces }} à {{kilometrages[i+1] | withSpaces }} km</option>
+        </ng-container>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
       <select id="annee" class="custom-select">
-        <option selected>Année de mise en circulation</option>
+        <option value="" selected>Année de mise en circulation</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>

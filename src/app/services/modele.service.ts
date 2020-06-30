@@ -1,46 +1,54 @@
 import {Injectable} from '@angular/core';
 import {Modele} from '../models/modele';
-import {MarqueService} from './marque.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, retry} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModeleService {
 
-  modeles: Modele[];
+  apiUrl = 'http://localhost:3000/modeles';
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
-  constructor(private marqueService: MarqueService) {
-    this.modeles = [
-      new Modele(1, this.marqueService.getMarqueById(1), 'Twingo'),
-      new Modele(2, this.marqueService.getMarqueById(1), 'Scenic'),
-      new Modele(3, this.marqueService.getMarqueById(1), 'Clio'),
-      new Modele(4, this.marqueService.getMarqueById(2), '308'),
-      new Modele(5, this.marqueService.getMarqueById(2), '508'),
-      new Modele(6, this.marqueService.getMarqueById(2), '3008'),
-      new Modele(7, this.marqueService.getMarqueById(3), 'C3'),
-      new Modele(8, this.marqueService.getMarqueById(3), 'C4'),
-      new Modele(9, this.marqueService.getMarqueById(3), 'C5'),
-      new Modele(10, this.marqueService.getMarqueById(4), 'A4'),
-      new Modele(11, this.marqueService.getMarqueById(4), 'Q7'),
-      new Modele(12, this.marqueService.getMarqueById(4), 'TT'),
-      new Modele(13, this.marqueService.getMarqueById(5), 'Polo'),
-      new Modele(14, this.marqueService.getMarqueById(5), 'Golf'),
-      new Modele(15, this.marqueService.getMarqueById(5), 'Touran'),
-      new Modele(16, this.marqueService.getMarqueById(6), 'Corsa'),
-      new Modele(17, this.marqueService.getMarqueById(6), 'Astra'),
-      new Modele(18, this.marqueService.getMarqueById(6), 'Crossland'),
-    ];
+  constructor(private http: HttpClient) {
   }
 
-  getAll(): Modele[] {
-    return this.modeles;
+  getAll(): Observable<Modele[]> {
+    return this.http.get<Modele[]>(this.apiUrl, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
-  getModeleById(id): Modele {
-    return this.modeles.find(modele => modele.id === id);
+  getModeleById(id: number): Observable<Modele> {
+    return this.http.get<Modele>(this.apiUrl + '/' + id, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
-  getModelesByMarqueId(id: number): Modele[] {
-    return this.modeles.filter(modele => modele.marque.id === id);
+  getModelesByMarqueId(modeles: Modele[], id: number): Modele[] {
+    return modeles.filter(modele => modele.marque.id === id);
+  }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+// Get client-side error
+      errorMessage = error.error.message;
+    } else {
+// Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    window.alert(errorMessage);
+    return throwError(errorMessage);
   }
 }
