@@ -16,8 +16,8 @@
       <select id="prix" class="custom-select" (change)="setFilter($event)">
         <option value="" selected>Prix</option>
         <ng-container *ngFor="let price of prices; index as i">
-          <option *ngIf="prices[i-1] == null" [value]="price+'-'+prices[i+1]">de {{ price | withSpaces }} à {{prices[i+1] | withSpaces}} €</option>
-          <option *ngIf="prices[i+1] && prices[i-1] != null" [value]="price+1+'-'+prices[i+1]">de {{ price+1 | withSpaces }} à {{prices[i+1] | withSpaces }} €</option>
+          <option *ngIf="!prices[i-1]" [value]="price+'-'+prices[i+1]">de {{ price | withSpaces }} à {{prices[i+1] | withSpaces}} €</option>
+          <option *ngIf="prices[i+1] && prices[i-1]" [value]="price+1+'-'+prices[i+1]">de {{ price+1 | withSpaces }} à {{prices[i+1] | withSpaces }} €</option>
         </ng-container>
       </select>
     </div>
@@ -33,17 +33,18 @@
       <select id="kilometrage" class="custom-select" (change)="setFilter($event)">
         <option  value="" selected>Kilométrage</option>
         <ng-container *ngFor="let kilometrage of kilometrages; index as i">
-          <option *ngIf="kilometrages[i-1] == null" [value]="kilometrage+'-'+kilometrages[i+1]">de {{ kilometrage | withSpaces }} à {{kilometrages[i+1] | withSpaces }} km</option>
-          <option *ngIf="kilometrages[i+1] && kilometrages[i-1] != null" [value]="kilometrage+1+'-'+kilometrages[i+1]">de {{ kilometrage+1 | withSpaces }} à {{kilometrages[i+1] | withSpaces }} km</option>
+          <option *ngIf="!kilometrages[i-1]" [value]="kilometrage+'-'+kilometrages[i+1]">de {{ kilometrage | withSpaces }} à {{kilometrages[i+1] | withSpaces }} km</option>
+          <option *ngIf="kilometrages[i+1] && kilometrages[i-1]" [value]="kilometrage+1+'-'+kilometrages[i+1]">de {{ kilometrage+1 | withSpaces }} à {{kilometrages[i+1] | withSpaces }} km</option>
         </ng-container>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
-      <select id="annee" class="custom-select">
+      <select id="annee" class="custom-select" (change)="setFilter($event)">
         <option value="" selected>Année de mise en circulation</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <ng-container *ngFor="let anneeMiseCirculation of anneesMiseCirculation; index as i">
+          <option *ngIf="!anneesMiseCirculation[i-1]" [value]="anneeMiseCirculation+'-'+anneesMiseCirculation[i+1]">de {{ anneeMiseCirculation }} à {{ anneesMiseCirculation[i+1] }}</option>
+          <option *ngIf="anneesMiseCirculation[i+1] && anneesMiseCirculation[i-1]" [value]="anneeMiseCirculation+1+'-'+anneesMiseCirculation[i+1]">de {{ anneeMiseCirculation+1 }} à {{ anneesMiseCirculation[i+1] }}</option>
+        </ng-container>
       </select>
     </div>
   </div>

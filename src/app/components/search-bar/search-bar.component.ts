@@ -19,6 +19,7 @@ export class SearchBarComponent implements OnInit {
   filteredModeles: Modele[];
   prices: Array<number> = [];
   kilometrages: Array<number> = [];
+  anneesMiseCirculation: Array<number> = [];
   isModeleDisabled = true;
 
   constructor(private marqueService: MarqueService,
@@ -38,16 +39,17 @@ export class SearchBarComponent implements OnInit {
       this.annonces = data;
       const maxPrice = this.annonceService.getMaximumPrice(this.annonces);
       const maxKilometrage = this.annonceService.getMaximumKilometrage(this.annonces);
-      let i = 0;
-      for (i; i < maxPrice; i += 5000) {
+      const minAnneeMiseCirculation = this.annonceService.getMinimumAnneeMiseCirculation(this.annonces);
+      const maxAnneeMiseCirculation = this.annonceService.getMaximumAnneeMiseCirculation(this.annonces);
+      let i: number;
+      for (i = 0; i < maxPrice; i += 5000) {
         this.prices.push(i);
         if (i >= 20000) {
           i += 5000;
         }
       }
       this.prices.push(i);
-      i = 0;
-      for (i; i < maxKilometrage; i += 10000) {
+      for (i = 0; i < maxKilometrage; i += 10000) {
         this.kilometrages.push(i);
         if (i === 10000) {
           i += 30000;
@@ -56,6 +58,11 @@ export class SearchBarComponent implements OnInit {
         }
       }
       this.kilometrages.push(i);
+      i = Math.floor(minAnneeMiseCirculation / 10) * 10;
+      for (i; i < maxAnneeMiseCirculation; i += 10) {
+        this.anneesMiseCirculation.push(i);
+      }
+      this.anneesMiseCirculation.push(maxAnneeMiseCirculation);
     });
   }
 

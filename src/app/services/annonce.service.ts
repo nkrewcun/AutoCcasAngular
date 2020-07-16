@@ -22,7 +22,7 @@ export class AnnonceService {
   }
 
   getAll(): Observable<Annonce[]> {
-    this.annonces = this.http.get<Annonce[]>(this.apiUrl, this.httpOptions)
+    this.annonces = this.http.get<Annonce[]>(this.apiUrl + '?_sort=anneeMiseCirculation&_order=desc', this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
@@ -36,6 +36,42 @@ export class AnnonceService {
         retry(1),
         catchError(this.handleError)
       );
+  }
+
+  getMinimumPrice(annonces: Annonce[]): number {
+    return Math.min.apply(Math, annonces.map(annonce => {
+      return annonce.prix;
+    }));
+  }
+
+  getMaximumPrice(annonces: Annonce[]): number {
+    return Math.max.apply(Math, annonces.map(annonce => {
+      return annonce.prix;
+    }));
+  }
+
+  getMinimumKilometrage(annonces: Annonce[]): number {
+    return Math.min.apply(Math, annonces.map(annonce => {
+      return annonce.kilometrage;
+    }));
+  }
+
+  getMaximumKilometrage(annonces: Annonce[]): number {
+    return Math.max.apply(Math, annonces.map(annonce => {
+      return annonce.kilometrage;
+    }));
+  }
+
+  getMinimumAnneeMiseCirculation(annonces: Annonce[]): number {
+    return Math.min.apply(Math, annonces.map(annonce => {
+      return annonce.anneeMiseCirculation;
+    }));
+  }
+
+  getMaximumAnneeMiseCirculation(annonces: Annonce[]): number {
+    return Math.max.apply(Math, annonces.map(annonce => {
+      return annonce.anneeMiseCirculation;
+    }));
   }
 
   filter(annoncesToFilter, filter: Node): Annonce[] {
@@ -60,36 +96,18 @@ export class AnnonceService {
             return annonce.kilometrage >= +kmRange[0] && annonce.kilometrage <= +kmRange[1];
           });
           break;
+        case 'annee' :
+          return annoncesToFilter.filter(annonce => {
+            const anneeCirculationRange = select.value.split('-');
+            return annonce.anneeMiseCirculation >= +anneeCirculationRange[0] && annonce.anneeMiseCirculation <= +anneeCirculationRange[1];
+          });
+          break;
       }
     } else if (select.id === 'marque') {
       const modele = document.getElementById('modele') as HTMLSelectElement;
       modele.value = '';
     }
     return annoncesToFilter;
-  }
-
-  getMinimumPrice(annonces: Annonce[]): number {
-    return Math.min.apply(Math, annonces.map(annonce => {
-        return annonce.prix;
-      }));
-  }
-
-  getMaximumPrice(annonces: Annonce[]): number {
-    return Math.max.apply(Math, annonces.map(annonce => {
-      return annonce.prix;
-    }));
-  }
-
-  getMinimumKilometrage(annonces: Annonce[]): number {
-    return Math.min.apply(Math, annonces.map(annonce => {
-      return annonce.kilometrage;
-    }));
-  }
-
-  getMaximumKilometrage(annonces: Annonce[]): number {
-    return Math.max.apply(Math, annonces.map(annonce => {
-      return annonce.kilometrage;
-    }));
   }
 
   handleError(error) {
