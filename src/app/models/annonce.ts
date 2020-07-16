@@ -2,14 +2,15 @@ import {Modele} from './modele';
 
 export class Annonce {
   id: number;
-  modele: Modele;
   reference: string;
+  modele: Modele;
   titre: string;
   description: string;
   descriptionCourte: string;
   anneeMiseCirculation: number;
   kilometrage: number;
   prix: number;
+  datePublication: Date;
 
   constructor(id: number = null,
               modele: Modele = null,
@@ -19,7 +20,8 @@ export class Annonce {
               descriptionCourte: string = null,
               anneeMiseCirculation: number = null,
               kilometrage: number = null,
-              prix: number = null) {
+              prix: number = null,
+              datePublication: Date = null) {
     this.id = id;
     this.modele = modele;
     this.reference = reference;
@@ -29,5 +31,6 @@ export class Annonce {
     this.anneeMiseCirculation = anneeMiseCirculation;
     this.kilometrage = kilometrage;
     this.prix = prix;
+    this.datePublication = datePublication;
   }
 }

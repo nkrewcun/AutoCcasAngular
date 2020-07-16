@@ -22,7 +22,7 @@ export class AnnonceService {
   }
 
   getAll(): Observable<Annonce[]> {
-    this.annonces = this.http.get<Annonce[]>(this.apiUrl + '?_sort=anneeMiseCirculation&_order=desc', this.httpOptions)
+    this.annonces = this.http.get<Annonce[]>(this.apiUrl + '?_sort=datePublication&_order=desc', this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
