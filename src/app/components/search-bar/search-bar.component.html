@@ -1,5 +1,5 @@
 <div class="container-lg">
-  <div class="row">
+  <div class="row" *ngIf="isLoading === 4">
     <div class="col-lg-4 col-md-6">
       <select id="marque" class="custom-select" (change)="setFilter($event)">
         <option value="" selected>Marque</option>
@@ -22,11 +22,9 @@
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
-      <select id="carburant" class="custom-select">
+      <select id="carburant" class="custom-select" (change)="setFilter($event)">
         <option value="" selected>Carburant</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option *ngFor="let carburant of carburants" [value]="carburant.id">{{ carburant.nom }}</option>
       </select>
     </div>
     <div class="col-lg-4 col-md-6">
@@ -46,6 +44,11 @@
           <option *ngIf="anneesMiseCirculation[i+1] && anneesMiseCirculation[i-1]" [value]="anneeMiseCirculation+1+'-'+anneesMiseCirculation[i+1]">de {{ anneeMiseCirculation+1 }} à {{ anneesMiseCirculation[i+1] }}</option>
         </ng-container>
       </select>
+    </div>
+  </div>
+  <div class="text-center" *ngIf="isLoading !== 4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
   </div>
 </div>

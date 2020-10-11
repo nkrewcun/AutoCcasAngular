@@ -11,7 +11,7 @@ export class AnnonceService {
 
   annonces: Observable<Annonce[]>;
 
-  apiUrl = 'http://localhost:3000/annonces';
+  apiUrl = 'http://localhost:8000/api/annonces';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ export class AnnonceService {
   }
 
   getAll(): Observable<Annonce[]> {
-    this.annonces = this.http.get<Annonce[]>(this.apiUrl + '?_sort=datePublication&_order=desc', this.httpOptions)
+    this.annonces = this.http.get<Annonce[]>(this.apiUrl + '?order[datePublication]=desc', this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
@@ -74,6 +74,11 @@ export class AnnonceService {
     }));
   }
 
+  /**
+   *
+   * @param annoncesToFilter Les annonces à filtrer
+   * @param filter
+   */
   filter(annoncesToFilter, filter: Node): Annonce[] {
     const select = filter as HTMLSelectElement;
     if (select.value) {
@@ -101,6 +106,9 @@ export class AnnonceService {
             const anneeCirculationRange = select.value.split('-');
             return annonce.anneeMiseCirculation >= +anneeCirculationRange[0] && annonce.anneeMiseCirculation <= +anneeCirculationRange[1];
           });
+          break;
+        case 'carburant' :
+          return annoncesToFilter.filter((annonce: Annonce) => annonce.carburant.id === +select.value);
           break;
       }
     } else if (select.id === 'marque') {

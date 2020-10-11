@@ -1,45 +1,48 @@
-<!--<table class="table">
+<app-jumbotron></app-jumbotron>
+<table class="table" *ngIf="!isLoading">
   <thead>
   <th>Marque</th>
   <th>Modèle</th>
-  <th>Reference</th>
   <th>Titre</th>
-  <th>Kilometrage</th>
   <th>Prix</th>
-  <th>Année de mise en circulation</th>
   <th>Date de publication</th>
+  <th>Actions</th>
   </thead>
   <tbody>
   <tr *ngFor="let annonce of filteredAnnonces">
     <td>{{annonce.modele.marque.nom}}</td>
     <td>{{annonce.modele.nom}}</td>
-    <td>{{annonce.reference}}</td>
     <td>{{annonce.titre}}</td>
-    <td>{{annonce.kilometrage | withSpaces}} km</td>
     <td>{{annonce.prix | withSpaces}} €</td>
-    <td>{{annonce.anneeMiseCirculation}}</td>
-    <td>{{annonce.datePublication | date: "dd/MM/yyyy à hh:mm"}}</td>
+    <td>{{annonce.datePublication | date: "dd/MM/yyyy"}}</td>
+    <td><a [routerLink]="['/annonces', annonce.id]" role="button" class="btn btn-info mr-1">Voir</a></td>
   </tr>
   </tbody>
-</table>-->
+</table>
+<div class="text-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
 
-<div class="container">
-<div class="row">
-  <div class="col-lg-6 mb-4" *ngFor="let annonce of filteredAnnonces">
-    <div class="card mb-3 h-100" style="max-width: 540px;">
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img src="..." class="card-img" alt="{{annonce.titre}}">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">{{annonce.titre}}</h5>
-            <p class="card-text">{{annonce.descriptionCourte}}</p>
-            <p class="card-text"><small class="text-muted">{{annonce.prix}} €</small></p>
+<!--<div class="container">
+  <div class="row">
+    <div class="col-lg-6 mb-4" *ngFor="let annonce of filteredAnnonces">
+      <div class="card mb-3 h-100" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="../../../assets/images/{{ annonce.photos[0].source}}" class="card-img"
+                 alt="{{annonce.photos[0].label}}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{annonce.titre}}</h5>
+              <p class="card-text">{{annonce.descriptionCourte}}</p>
+              <p class="card-text"><small class="text-muted">{{annonce.prix}} €</small></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
+</div>-->

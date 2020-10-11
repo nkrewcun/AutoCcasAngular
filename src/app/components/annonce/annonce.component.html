@@ -1,0 +1,19 @@
+<div class="card" *ngIf="!isLoading">
+  <div class="card-body">
+    <h4 class="card-title">{{annonce.titre}}</h4>
+    <h5 class="card-subtitle mb-2">{{annonce.modele.marque.nom}} {{annonce.modele.nom}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{annonce.reference}}</h6>
+    <p class="card-text">Description : {{annonce.description}}</p>
+    <p class="card-text">Carburant : {{annonce.carburant.nom}}</p>
+    <p class="card-text">Prix : {{annonce.prix}} €</p>
+    <p class="card-text">Kilométrage : {{annonce.kilometrage }}</p>
+    <p class="card-text">Année de mise en circulation : {{annonce.anneeMiseCirculation}}</p>
+    <p class="card-text">Date de publication : {{annonce.datePublication | date: "dd/MM/yyyy"}}</p>
+    <p class="card-text"><a routerLink="/" role="button" class="btn btn-primary">Retour</a></p>
+  </div>
+</div>
+<div class="text-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

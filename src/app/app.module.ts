@@ -13,6 +13,7 @@ import {AnnoncesComponent} from './components/annonces/annonces.component';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import {HttpClientModule} from '@angular/common/http';
 import { WithSpacesPipe } from './pipes/with-spaces.pipe';
+import { AnnonceComponent } from './components/annonce/annonce.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { WithSpacesPipe } from './pipes/with-spaces.pipe';
     MainComponent,
     SearchBarComponent,
     AnnoncesComponent,
-    WithSpacesPipe
+    WithSpacesPipe,
+    AnnonceComponent
   ],
   imports: [
     BrowserModule,

@@ -18,7 +18,7 @@ export class MarqueService {
     new Marque(6, 'Opel')
   ];
 
-  apiUrl = 'http://localhost:3000/marques';
+  apiUrl = 'http://localhost:8000/api/marques';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

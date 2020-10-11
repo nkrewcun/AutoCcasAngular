@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Modele} from '../models/modele';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
+import {Marque} from '../models/marque';
 import {catchError, retry} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {TypeCarburant} from '../models/type-carburant';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModeleService {
+export class TypeCarburantService {
 
-  apiUrl = 'http://localhost:8000/api/modeles';
+  apiUrl = 'http://localhost:8000/api/type_carburants';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -19,24 +20,20 @@ export class ModeleService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<Modele[]> {
-    return this.http.get<Modele[]>(this.apiUrl, this.httpOptions)
+  getAll(): Observable<TypeCarburant[]> {
+    return this.http.get<TypeCarburant[]>(this.apiUrl, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
 
-  getModeleById(id: number): Observable<Modele> {
-    return this.http.get<Modele>(this.apiUrl + '/' + id, this.httpOptions)
+  getTypeCarburantById(id: number): Observable<TypeCarburant> {
+    return this.http.get<TypeCarburant>(this.apiUrl + '/' + id, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
-  }
-
-  getModelesByMarqueId(modeles: Modele[], id: number): Modele[] {
-    return modeles.filter(modele => modele.marque.id === id);
   }
 
   handleError(error) {

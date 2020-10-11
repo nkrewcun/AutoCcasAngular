@@ -6,6 +6,8 @@ import {Modele} from '../../models/modele';
 import {SearchBarService} from '../../services/search-bar.service';
 import {AnnonceService} from '../../services/annonce.service';
 import {Annonce} from '../../models/annonce';
+import {TypeCarburantService} from '../../services/type-carburant.service';
+import {TypeCarburant} from '../../models/type-carburant';
 
 @Component({
   selector: 'app-search-bar',
@@ -13,8 +15,10 @@ import {Annonce} from '../../models/annonce';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent implements OnInit {
+  isLoading: number;
   marques: Marque[];
   modeles: Modele[] = [];
+  carburants: TypeCarburant[];
   annonces: Annonce[];
   filteredModeles: Modele[];
   prices: Array<number> = [];
@@ -24,23 +28,32 @@ export class SearchBarComponent implements OnInit {
 
   constructor(private marqueService: MarqueService,
               private modeleService: ModeleService,
+              private carburantService: TypeCarburantService,
               private annonceService: AnnonceService,
               private searchBarService: SearchBarService) {
   }
 
   ngOnInit(): void {
-    this.marqueService.getAll().subscribe((data: Marque[]) => {
-      this.marques = data;
+    this.isLoading = 0;
+    this.marqueService.getAll().subscribe(then => {
+      this.marques = then['hydra:member'];
+      this.isLoading++;
     });
-    this.modeleService.getAll().subscribe((data: Modele[]) => {
-      this.modeles = data;
+    this.modeleService.getAll().subscribe(then => {
+      this.modeles = then['hydra:member'];
+      this.isLoading++;
     });
-    this.annonceService.getAll().subscribe((data: Annonce[]) => {
-      this.annonces = data;
-      const maxPrice = this.annonceService.getMaximumPrice(this.annonces);
-      const maxKilometrage = this.annonceService.getMaximumKilometrage(this.annonces);
-      const minAnneeMiseCirculation = this.annonceService.getMinimumAnneeMiseCirculation(this.annonces);
-      const maxAnneeMiseCirculation = this.annonceService.getMaximumAnneeMiseCirculation(this.annonces);
+    this.carburantService.getAll().subscribe(then => {
+      this.carburants = then['hydra:member'];
+      this.isLoading++;
+    });
+    this.searchBarService.getSearchValues().subscribe(then => {
+      const searchValues = then;
+      console.log(searchValues);
+      const maxPrice = searchValues.prixMax;
+      const maxKilometrage = searchValues.kilometrageMax;
+      const maxAnneeMiseCirculation = searchValues.anneeCirculationMax;
+      const minAnneeMiseCirculation = searchValues.anneeCirculationMin;
       let i: number;
       for (i = 0; i < maxPrice; i += 5000) {
         this.prices.push(i);
@@ -63,6 +76,7 @@ export class SearchBarComponent implements OnInit {
         this.anneesMiseCirculation.push(i);
       }
       this.anneesMiseCirculation.push(maxAnneeMiseCirculation);
+      this.isLoading++;
     });
   }
 

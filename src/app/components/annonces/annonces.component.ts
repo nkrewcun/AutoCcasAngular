@@ -12,14 +12,17 @@ export class AnnoncesComponent implements OnInit {
 
   annonces: Annonce[];
   filteredAnnonces: Annonce[];
+  isLoading: boolean;
 
   constructor(private annonceService: AnnonceService, private searchBarService: SearchBarService) {
   }
 
   ngOnInit(): void {
-    this.annonceService.getAll().subscribe((data: Annonce[]) => {
-      this.annonces = data;
+    this.isLoading = true;
+    this.annonceService.getAll().subscribe(then => {
+      this.annonces = then['hydra:member'];
       this.filteredAnnonces = this.annonces;
+      this.isLoading = false;
     });
     this.searchBarService.getAll().subscribe(data => {
       let filters;
