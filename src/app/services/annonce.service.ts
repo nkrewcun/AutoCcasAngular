@@ -38,6 +38,28 @@ export class AnnonceService {
       );
   }
 
+  addAnnonce(annonce: Annonce): Observable<Annonce> {
+    return this.http.post<Annonce>(this.apiUrl, annonce, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  removeById(id: number): Observable<Annonce> {
+    return this.http.delete<Annonce>(this.apiUrl + '/' + id)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
+  edit(annonceToUpdate: Annonce): Observable<Annonce> {
+    return this.http.put<Annonce>(this.apiUrl + '/' + annonceToUpdate.id, annonceToUpdate, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getMinimumPrice(annonces: Annonce[]): number {
     return Math.min.apply(Math, annonces.map(annonce => {
       return annonce.prix;
@@ -77,7 +99,7 @@ export class AnnonceService {
   /**
    *
    * @param annoncesToFilter Les annonces à filtrer
-   * @param filter
+   * @param filter les filtres sélectionnés
    */
   filter(annoncesToFilter, filter: Node): Annonce[] {
     const select = filter as HTMLSelectElement;

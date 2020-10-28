@@ -36,7 +36,7 @@ export class ModeleService {
   }
 
   getModelesByMarqueId(modeles: Modele[], id: number): Modele[] {
-    return modeles.filter(modele => modele.marque.id === id);
+    return modeles.filter(modele => modele.marque === '/api/marques/' + id);
   }
 
   handleError(error) {

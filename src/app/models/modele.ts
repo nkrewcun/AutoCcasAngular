@@ -3,7 +3,7 @@ import {Annonce} from './annonce';
 
 export class Modele {
   id: number;
-  marque: Marque;
+  marque: any;
   nom: string;
   annonces: Annonce[];
 

@@ -49,7 +49,6 @@ export class SearchBarComponent implements OnInit {
     });
     this.searchBarService.getSearchValues().subscribe(then => {
       const searchValues = then;
-      console.log(searchValues);
       const maxPrice = searchValues.prixMax;
       const maxKilometrage = searchValues.kilometrageMax;
       const maxAnneeMiseCirculation = searchValues.anneeCirculationMax;

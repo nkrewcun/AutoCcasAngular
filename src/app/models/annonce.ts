@@ -12,10 +12,10 @@ export class Annonce {
   anneeMiseCirculation: number;
   kilometrage: number;
   prix: number;
-  modele: Modele;
+  modele: any;
   datePublication: Date;
-  garage: Garage;
-  carburant: TypeCarburant;
+  garage: any;
+  carburant: any;
   photos: Photo[];
 
   constructor(id: number = null,
@@ -27,9 +27,9 @@ export class Annonce {
               kilometrage: number = null,
               prix: number = null,
               datePublication: Date = null,
-              modele: Modele = null,
-              garage: Garage = null,
-              carburant: TypeCarburant = null,
+              modele: Modele | string = null,
+              garage: Garage | string = null,
+              carburant: TypeCarburant | string = null,
               photos: Photo[] = null) {
     this.id = id;
     this.reference = reference;
