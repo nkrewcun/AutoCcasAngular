@@ -1,0 +1,57 @@
+<div class="container px-2 form">
+  <a routerLink="/accueil" class="text-decoration-none text-dark">
+    <h1 class="text-center">Centre'Auto'Ccas</h1>
+  </a>
+  <div class="bg-light p-3">
+    <form #loginForm="ngForm" (ngSubmit)="submitLogin()">
+      <div class="form-group">
+        <label for="email">Identifiant</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="aaa.bbb@exemple.com" required
+               email
+               [(ngModel)]="professionnal.email" #email="ngModel"/>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+             class="alert alert-danger">
+          <div *ngIf="email.errors.required">
+            L'adresse e-mail est requise
+          </div>
+          <div *ngIf="email.errors.email">
+            Le format de l'adresse e-mail n'est pas valide
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Votre mot de passe ici"
+               required [(ngModel)]="professionnal.password"
+               #password="ngModel" minlength="6"/>
+        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+             class="alert alert-danger">
+          <div *ngIf="password.errors.required">
+            Le mot de passe est requis
+          </div>
+          <div *ngIf="password.errors.minlength">
+            Le mot de passe doit faire au moins 6 caractères
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="loginForm.submitted && hasLoginFailed">
+          Connexion échouée : {{ errorMessage }}
+        </div>
+      </div>
+
+      <input [disabled]="!loginForm.valid" type="submit" class="btn btn-block btn-success" value="Se connecter"/>
+    </form>
+    <a href="#" class="btn btn-block btn-info mt-3">Vous voulez vendre ? Contactez-moi !</a>
+  </div>
+  <div class="p-3">
+    <a class="text-decoration-none" routerLink="/accueil">
+        <button class="btn btn-outline-secondary btn-block">Retour</button>
+    </a>
+  </div>
+</div>

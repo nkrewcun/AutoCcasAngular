@@ -1,0 +1,33 @@
+<ng-container *ngIf="isLoading >= loadingEndedNumber && !isDeleting">
+  <div class="table-responsive mt-3" *ngFor="let garage of garages">
+    <h5 class="mb-2">{{ garage.nom }}</h5>
+    <table class="table">
+      <thead>
+      <th>Marque</th>
+      <th>Modèle</th>
+      <th>Titre</th>
+      <th>Prix</th>
+      <th>Date de publication</th>
+      <th>Actions</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let annonce of garage.annonces">
+        <td>{{annonce.modele.marque.nom}}</td>
+        <td>{{annonce.modele.nom}}</td>
+        <td>{{annonce.titre}}</td>
+        <td>{{annonce.prix | withSpaces}} €</td>
+        <td>{{annonce.datePublication | date: "dd/MM/yyyy"}}</td>
+        <td><a [routerLink]="['/compte/annonces/', annonce.id]" role="button" class="btn btn-info mr-1">Voir</a>
+          <a [routerLink]="['/compte/annonces/edit', annonce.id]" role="button" class="btn btn-warning mr-1">Editer</a>
+          <button class="btn btn-danger" (click)="deleteAnnonce(garage.id, annonce.id)">Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+<div class="text-center" *ngIf="isLoading < loadingEndedNumber || isDeleting">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

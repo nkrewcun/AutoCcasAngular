@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Annonce} from '../../models/annonce';
 import {SearchBarService} from '../../services/search-bar.service';
 import {AnnonceService} from '../../services/annonce.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-annonces',

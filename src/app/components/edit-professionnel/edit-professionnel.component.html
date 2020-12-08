@@ -1,0 +1,63 @@
+<div class="container px-2 form">
+  <h3 class="text-center">Mes informations</h3>
+  <div class="bg-light p-3">
+    <form #userForm="ngForm" (ngSubmit)="editProfile()">
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="texte" class="form-control" id="prenom" name="prenom" placeholder="Prénom" required
+               [(ngModel)]="currentUser.prenom" #prenom="ngModel"/>
+        <div *ngIf="prenom.invalid && (prenom.dirty || prenom.touched)"
+             class="alert alert-danger">
+          <div *ngIf="prenom.errors.required">
+            Le prénom est requis
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="texte" class="form-control" id="nom" name="nom" placeholder="Nom" required
+               [(ngModel)]="currentUser.nom" #nom="ngModel"/>
+        <div *ngIf="nom.invalid && (nom.dirty || nom.touched)"
+             class="alert alert-danger">
+          <div *ngIf="nom.errors.required">
+            Le nom est requis
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="aaa.bbb@exemple.com" required
+               email
+               [(ngModel)]="currentUser.email" #email="ngModel"/>
+        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+             class="alert alert-danger">
+          <div *ngIf="email.errors.required">
+            L'adresse e-mail est requise
+          </div>
+          <div *ngIf="email.errors.email">
+            Le format de l'adresse e-mail n'est pas valide
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="siret">Numéro SIRET</label>
+        <input type="texte" class="form-control" id="siret" name="siret" placeholder="Numéro SIRET" required minlength="14" maxlength="14"
+               [(ngModel)]="currentUser.numeroSiret" #siret="ngModel"/>
+        <div *ngIf="siret.invalid && (siret.dirty || siret.touched)"
+             class="alert alert-danger">
+          <div *ngIf="siret.errors.required">
+            Le numéro de SIRET est requis
+          </div>
+          <div *ngIf="siret.errors.minlength">
+            Le numéro de SIRET doit faire 14 caractères.
+          </div>
+          <div *ngIf="siret.errors.maxlength">
+            Le numéro de SIRET doit faire 14 caractères.
+          </div>
+        </div>
+      </div>
+
+      <input [disabled]="!userForm.valid" type="submit" class="btn btn-block btn-success" value="Modifier mon profil"/>
+    </form>
+  </div>
+</div>

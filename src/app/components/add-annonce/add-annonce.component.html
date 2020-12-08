@@ -1,0 +1,108 @@
+<div *ngIf="isLoading >= 3" class="container px-2 form mt-5">
+  <h2 class="text-center mb-3">Ajouter une annonce</h2>
+  <div class="bg-light p-3">
+    <form #annonceForm="ngForm" (ngSubmit)="addAnnonce()">
+      <div class="form-group">
+        <label for="titre">Titre</label>
+        <input type="texte" class="form-control" id="titre" name="titre" placeholder="Titre" required
+               [(ngModel)]="annonce.titre" #titre="ngModel"/>
+        <div *ngIf="titre.invalid && (titre.dirty || titre.touched)"
+             class="alert alert-danger">
+          Le titre est requis
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descriptionCourte">Description courte</label>
+        <textarea class="form-control" id="descriptionCourte" name="descriptionCourte"
+                  placeholder="La description courte sera affichée sur la page d'accueil" rows="3" required
+                  [(ngModel)]="annonce.descriptionCourte" #descriptionCourte="ngModel"></textarea>
+        <div *ngIf="descriptionCourte.invalid && (descriptionCourte.dirty || descriptionCourte.touched)"
+             class="alert alert-danger">
+          Le description courte est requise
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description"
+                  placeholder="La description sera affichée sur le détail de l'annonce" rows="5" required
+                  [(ngModel)]="annonce.description" #description="ngModel"></textarea>
+        <div *ngIf="description.invalid && (description.dirty || description.touched)"
+             class="alert alert-danger">
+          Le description est requise
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="anneeMiseCirculation">Année de mise en circulation</label>
+        <input type="number" class="form-control" id="anneeMiseCirculation" name="anneeMiseCirculation" required [(ngModel)]="annonce.anneeMiseCirculation"
+               #anneeMiseCirculation="ngModel"/>
+        <div *ngIf="anneeMiseCirculation.invalid && (anneeMiseCirculation.dirty || anneeMiseCirculation.touched)"
+             class="alert alert-danger">
+          L'année de mise en circulation est requise
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="prix">Prix</label>
+        <input type="number" class="form-control" id="prix" name="prix" required [(ngModel)]="annonce.prix"
+               #prix="ngModel"/>
+        <div *ngIf="prix.invalid && (prix.dirty || prix.touched)"
+             class="alert alert-danger">
+          Le prix est requis
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="kilometrage">Kilométrage</label>
+        <input type="number" class="form-control" id="kilometrage" name="kilometrage" required [(ngModel)]="annonce.kilometrage"
+               #kilometrage="ngModel"/>
+        <div *ngIf="kilometrage.invalid && (kilometrage.dirty || kilometrage.touched)"
+             class="alert alert-danger">
+          Le kilométrage est requis
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="modele">Modèle</label>
+        <select id="modele" class="form-control" (change)="setModele($event)">
+          <option value="" selected hidden>Modèle</option>
+          <option *ngFor="let modele of modeles" [value]="modele.id">{{ modele.nom }}</option>
+        </select>
+        <div *ngIf="!annonce.modele"
+             class="alert alert-danger">
+          Le modèle est requis
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="typeCarburant">Type de carburant</label>
+        <select id="typeCarburant" class="form-control" (change)="setCarburant($event)">
+          <option value="" selected hidden>Type de carburant</option>
+          <option *ngFor="let carburant of carburants" [value]="carburant.id">{{ carburant.nom }}</option>
+        </select>
+        <div *ngIf="!annonce.carburant"
+             class="alert alert-danger">
+          Le type de carburant est requis
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="garage">Garage</label>
+        <select id="garage" class="form-control" (change)="setGarage($event)">
+          <option value="" selected hidden>Garage</option>
+          <option *ngFor="let garage of garages" [value]="garage.id">{{ garage.nom }}</option>
+        </select>
+        <div *ngIf="!annonce.garage"
+             class="alert alert-danger">
+          Le garage est requis
+        </div>
+      </div>
+
+      <input [disabled]="!annonceForm.valid || !annonce.modele || !annonce.carburant || !annonce.garage" type="submit" class="btn btn-block btn-success" value="Ajouter une annonce"/>
+    </form>
+  </div>
+  <div class="p-3">
+    <a class="text-decoration-none" routerLink="/compte">
+      <button class="btn btn-outline-secondary btn-block">Retour</button>
+    </a>
+  </div>
+</div>
+<div class="text-center" *ngIf="isLoading < 3">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

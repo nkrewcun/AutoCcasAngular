@@ -9,7 +9,8 @@
     <p class="card-text">Kilométrage : {{annonce.kilometrage }}</p>
     <p class="card-text">Année de mise en circulation : {{annonce.anneeMiseCirculation}}</p>
     <p class="card-text">Date de publication : {{annonce.datePublication | date: "dd/MM/yyyy"}}</p>
-    <p class="card-text"><a routerLink="/" role="button" class="btn btn-primary">Retour</a></p>
+    <p class="card-text" *ngIf="isViewedFromAccount"><a routerLink="/compte/annonces" role="button" class="btn btn-primary">Retour</a></p>
+    <p class="card-text" *ngIf="!isViewedFromAccount"><a routerLink="/" role="button" class="btn btn-primary">Retour</a></p>
   </div>
 </div>
 <div class="text-center" *ngIf="isLoading">

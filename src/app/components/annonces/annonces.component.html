@@ -1,5 +1,5 @@
 <app-jumbotron></app-jumbotron>
-<table class="table" *ngIf="!isLoading">
+<!--<table class="table" *ngIf="!isLoading">
   <thead>
   <th>Marque</th>
   <th>Modèle</th>
@@ -18,31 +18,37 @@
     <td><a [routerLink]="['/annonces', annonce.id]" role="button" class="btn btn-info mr-1">Voir</a></td>
   </tr>
   </tbody>
-</table>
+</table>-->
+
 <div class="text-center" *ngIf="isLoading">
   <div class="spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
 
-<!--<div class="container">
+<div class="container" *ngIf="!isLoading">
   <div class="row">
     <div class="col-lg-6 mb-4" *ngFor="let annonce of filteredAnnonces">
-      <div class="card mb-3 h-100" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="../../../assets/images/{{ annonce.photos[0].source}}" class="card-img"
-                 alt="{{annonce.photos[0].label}}">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{annonce.titre}}</h5>
-              <p class="card-text">{{annonce.descriptionCourte}}</p>
-              <p class="card-text"><small class="text-muted">{{annonce.prix}} €</small></p>
+      <a [routerLink]="['/annonces/', annonce.id]">
+        <div class="card mb-3 h-100 mx-auto" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="../../../assets/images/{{ annonce.photos[0].source}}" class="card-img"
+                   alt="{{annonce.photos[0].label}}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h4 class="card-title">{{ annonce.modele.marque.nom }} {{annonce.modele.nom}}</h4>
+                <h5 class="card-title">{{annonce.titre}}</h5>
+                <p class="card-text">{{annonce.descriptionCourte}}</p>
+                <p class="card-text">{{annonce.kilometrage | withSpaces}} km</p>
+                <p class="card-text"><small class="text-muted">Date de publication :<br>{{annonce.datePublication | date: 'dd/MM/yyyy'}}</small></p>
+                <p class="card-text text-success price">{{annonce.prix | withSpaces }} €</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
-</div>-->
+</div>

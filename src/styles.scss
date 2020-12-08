@@ -1,1 +1,24 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css");
+
+.form {
+
+  div.bg-light {
+    border: #f0f0f0 1px solid;
+    border-radius: 10px;
+    filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.07));
+  }
+
+  input, textarea, select {
+    margin-bottom: .25rem;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #acacac;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .form {
+    max-width: 500px;
+  }
+}

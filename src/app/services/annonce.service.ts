@@ -38,6 +38,14 @@ export class AnnonceService {
       );
   }
 
+  getAnnonceForEditById(id: number): Observable<Annonce> {
+    return this.http.get<Annonce>(this.apiUrl + '/for_edit/' + id, this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
   addAnnonce(annonce: Annonce): Observable<Annonce> {
     return this.http.post<Annonce>(this.apiUrl, annonce, this.httpOptions)
       .pipe(
